@@ -1,0 +1,26 @@
+﻿@page "/others"
+
+@inject ApplicationContext ApplicationContext;
+
+<PageTitle>Others</PageTitle>
+
+<div class="container">
+
+<div class="mb-3">
+    <h2>Configuration File</h2>
+</div>
+
+<div class="mb-3">
+    <h5>@ApplicationContext.ConfigurationFileName
+    <button class="btn btn-primary" @onclick="OpenConfigurationFile">Open</button>
+    </h5>
+</div>
+
+</div>
+
+@code {
+    private void OpenConfigurationFile()
+    {
+        ApplicationContext.OpenConfigurationFile();
+    }
+}

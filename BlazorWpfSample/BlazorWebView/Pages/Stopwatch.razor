@@ -1,0 +1,65 @@
+@page "/stopwatch"
+
+<PageTitle>Stopwatch</PageTitle>
+
+<div class="container">
+
+<div class="mb-3">
+<h1>Stopwatch</h1>
+</div>
+
+<div class="mb-3">
+<h5> 
+    @if(_stopwatch.IsRunning)
+    {
+        <span style="color: #28a745">Running</span>
+    }
+    else
+    {
+        <span style="color: #dc3545">Not Running</span>
+    }
+</h5>
+<h5>Time: <span style="color: #007bff">@(_stopwatch.Elapsed.ToString(@"hh\:mm\:ss"))</span></h5>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-success" @onclick="Start"
+            disabled=@(_stopwatch.IsRunning)>Start</button>
+    <button class="btn btn-danger" @onclick="Stop"
+            disabled=@(!_stopwatch.IsRunning)>Stop</button>
+    <button class="btn btn-secondary" @onclick="Reset"
+            disabled=@(_stopwatch.IsRunning)>Reset</button>
+</div>
+
+</div>
+
+@code {
+    private System.Diagnostics.Stopwatch _stopwatch;
+    private System.Threading.Timer _timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _stopwatch = new System.Diagnostics.Stopwatch();
+        _timer = new System.Threading.Timer(Update, null, 0, 1000);
+    }
+
+    private void Start()
+    {
+        _stopwatch.Start();
+    }
+
+    private void Stop()
+    {
+        _stopwatch.Stop();
+    }
+
+    private void Reset()
+    {
+        _stopwatch.Reset();
+    }
+
+    private void Update(object? stateObject)
+    {
+        InvokeAsync(() => StateHasChanged());
+    }
+}

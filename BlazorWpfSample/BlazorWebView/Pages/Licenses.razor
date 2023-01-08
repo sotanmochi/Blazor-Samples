@@ -1,0 +1,40 @@
+﻿@page "/licenses"
+
+@inject ApplicationContext ApplicationContext;
+
+<PageTitle>Licenses</PageTitle>
+
+<div class="container">
+
+<hr class="mb-3">
+
+<div class="mb-3">
+    <h2>License</h2>
+</div>
+<div class="mb-3">
+    @((MarkupString)_licenceHtml)
+</div>
+
+<hr class="mb-3">
+
+<div class="mb-3">
+    <h2>Third Party Notices</h2>
+</div>
+<div class="mb-3">
+    @((MarkupString)_thirdPartyNoticesHtml)
+</div>
+
+<hr class="mb-3">
+
+</div>
+
+@code {
+    private string _licenceHtml = "";
+    private string _thirdPartyNoticesHtml = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _licenceHtml = await ApplicationContext.GetLicenseHtmlAsync();
+        _thirdPartyNoticesHtml = await ApplicationContext.GetThirdPartyNoticesHtmlAsync();
+    }
+}

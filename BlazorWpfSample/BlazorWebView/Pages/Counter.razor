@@ -1,0 +1,61 @@
+@page "/counter"
+
+@inject BlazorWpfSample.Domain.Counter CounterInstance;
+
+<PageTitle>Counter</PageTitle>
+
+<div class="container">
+
+<div class="mb-3">
+    <h1>Counter</h1>
+</div>
+
+<div class="mb-3">
+    <h5>Current Count: <span style="color: #007bff">@(_counter.CurrentCount)</span></h5>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="Increment">Increment</button>
+    <button class="btn btn-secondary" @onclick="Decrement">Decrement</button>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="IncrementAsync" disabled=@_taskIsRunning>Increment Async</button>
+    <button class="btn btn-secondary" @onclick="DecrementAsync" disabled=@_taskIsRunning>Decrement Async</button>
+</div>
+
+</div>
+
+@code {
+    private BlazorWpfSample.Domain.Counter _counter;
+    private bool _taskIsRunning;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _counter = CounterInstance;
+    }
+
+    private void Increment()
+    {
+        _counter.Increment();
+    }
+
+    private void Decrement()
+    {
+        _counter.Decrement();
+    }
+
+    private async Task IncrementAsync()
+    {
+        _taskIsRunning = true;
+        await _counter.IncrementAsync();
+        _taskIsRunning = false;
+    }
+
+    private async Task DecrementAsync()
+    {
+        _taskIsRunning = true;
+        await _counter.DecrementAsync();
+        _taskIsRunning = false;
+    }
+}
